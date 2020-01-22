@@ -1,0 +1,77 @@
+mysql> create database LAB3
+
+mysql> use LAB3;
+
+mysql> create table Department (Dept_id int(50) primary key, Dept_name VARCHAR(100));
+
+mysql> create table Professor
+    -> (Prof_id int(50) primary key,
+    -> Prof_name VARCHAR(100),
+    -> Sex VARCHAR(100),
+    -> Dept_id int(50) not null,
+    -> foreign key(Dept_id) references Department(Dept_id));
+
+mysql> create table Research_area (
+    -> Prof_id int(50) not null,
+    -> Area VARCHAR(100) not null,
+    -> primary key (Prof_id, Area),
+    -> foreign key(Prof_id) references Professor(Prof_id));
+
+mysql> create table Course (
+    -> Course_id int(50) primary key,
+    -> Intake int(13),
+    -> Course_name VARCHAR(100),
+    -> Course_type VARCHAR(100),
+    -> Room VARCHAR(100),
+    -> Day VARCHAR(100) not null,
+    -> St_Time time not null,
+    -> End_Time time not null,
+    -> Prof_id int(50) not null,
+    -> Dept_id int(50) not null,
+    -> Since date not null,
+    -> foreign key(Prof_id) references Professor(Prof_id),
+    -> foreign key(Dept_id) references Department(Dept_id));
+
+mysql> create table Dependants (
+    -> Name VARCHAR(100) not null,
+    -> Age int(11),
+    -> Prof_id int(50) not null,
+    -> foreign key(Prof_id) references Professor(Prof_id),
+    -> primary key(Name, Prof_id));
+
+mysql> alter table Course drop Day;
+mysql> alter table Course drop St_time;
+mysql> alter table Course drop End_time;
+mysql> alter table Course drop foreign key Course_ibfk_1;
+mysql> alter table Course drop Prof_id;
+mysql> create table Schedule (Day VARCHAR(100) not null, St_time time not null, End_time time not null,St_time, End_time, Course_id));
+mysql> alter table Dependants drop primary key,add primary key(Name, Age, Prof_id);
+mysql> create table Teaches
+    -> (
+    -> Course_id int(50) not null,
+    -> Prof_id int(50) not null,
+    -> foreign key(course_id) references Course(Course_id),
+    -> foreign key(Prof_id) references Professor(Prof_id),
+    -> primary key (Prof_id, Course_id));
+
+
+1)  mysql> select Course_id from Course where Room="2102";
+
+2)  mysql> select Dept_name from Department where Dept_id in (select Dept_id from Course where Room="L1"
+or Room="L2" or Room="L3");
+
+3)  mysql> select Prof_name from Professor where Dept_id in (select Dept_id from Department where Dept_name="CSE");
+
+4)  mysql> select Prof_name, Prof_id from Professor where Prof_id in ( select Prof_id from Teaches where Course_id in ( select Course_id from Course where Course_name="CS345"));
+
+5)  mysql> select Dept_name, Dept_id from Department where Dept_id in  (select Dept_id from Course where Course_id in  (select Course_id from Schedule where St_time=150000 and End_time=160000));
+
+6)  mysql> select Prof_name, Prof_id from Professor where Prof_id not in  (select Prof_id from Teaches where Course_id in (select Course_id from Schedule where (Day="Monday"and St_time=090000 and End_time=100000)));
+
+7)  mysql> select Prof_id, Prof_name from Professor where Sex="F" and Dept_id in (select Dept_id from Department where Dept_name="CIVIL");
+
+8)  mysql> select Course_id from Course where Since=20060101;
+
+9)  mysql> select Name, Age from Dependants where Prof_id in  (select Prof_id from Professor where Prof_name="X");
+
+10) mysql> select Prof_name from Professor where Prof_id in (select Prof_id from Research_area where Area="Machine Learning" or Area="Data Mining");
