@@ -1,0 +1,102 @@
+1. create procedure displayProf(in flag int)
+   begin
+   if flag=0 then select prof_name from professor where sex="F";
+   else select prof_name from professor where sex="M";
+   end if;
+   end $$
+
+2. create procedure getFactorial(inout x int) begin declare ans int; set ans=1; factorial: LOOP if x>0 then set ans=ans*x;set x=x-1; else leave factorial; end if; end loop; select ans; end$$
+
+3. 	DELIMITER &&
+	CREATE PROCEDURE q3 (IN id VARCHAR(50)) 
+	BEGIN
+		DECLARE gift INT;
+		DECLARE depend INT ;
+		Select count(*) into depend from Dependants where prof_id = id ;
+	CASE depend
+		WHEN 0 THEN 
+	SET gift = 0;
+	WHEN 1 THEN 
+	SET gift = 2000;
+	WHEN 2 THEN 
+	SET gift = 3000;
+	WHEN 3 THEN 
+	SET gift = 4000;
+	WHEN 4 THEN 
+	SET gift = 5000;
+	WHEN 5 THEN 
+	SET gift = 6000;
+	ELSE 
+		SET gift =7000;
+	END CASE ;
+	SELECT gift;
+	END && 
+	DELIMITER ;
+
+4.  DELIMITER &&
+	CREATE PROCEDURE q4_1(  IN temp INT,  IN step INT )
+	BEGIN
+	    SET temp = temp + step;
+	END && 
+	DELIMITER ;
+
+	DELIMITER &&
+	CREATE PROCEDURE q4_2(  OUT temp INT,  IN step INT )
+	BEGIN
+	    SET temp = temp + step;
+	END && 
+	DELIMITER ;
+
+	DELIMITER &&
+	CREATE PROCEDURE q4_3(  INOUT temp INT,  IN step INT )
+	BEGIN
+	    SET temp = temp + step;
+	END && 
+	DELIMITER ;
+
+5. 
+	DELIMITER &&
+	CREATE PROCEDURE q5_1(  IN temp INT,  IN step INT )
+	BEGIN
+	DECLARE bef INT ;
+	DECLARE after INT ;
+	SELECT count(*) INTO bef FROM Attends WHERE grade = temp;
+	UPDATE Attends SET grade = (temp + step) WHERE grade = temp;
+	SET temp = temp + step;
+	SELECT count(*) INTO after FROM Attends WHERE grade = temp;
+	SELECT bef , after , temp;
+	END && 
+	DELIMITER ;
+
+
+	DELIMITER &&
+	CREATE PROCEDURE q5_2(  OUT temp INT,  IN step INT )
+	BEGIN
+	DECLARE bef INT ;
+	DECLARE after INT ;
+	SELECT count(*) INTO bef FROM Attends WHERE grade = temp;
+	UPDATE Attends SET grade = (temp + step) WHERE grade = temp;
+	SET temp = temp + step;
+	SELECT count(*) INTO after FROM Attends WHERE grade = temp;
+	SELECT bef , after , temp;
+	END && 
+	DELIMITER ;
+
+
+	DELIMITER &&
+	CREATE PROCEDURE q5_3(  INOUT temp INT,  IN step INT )
+	BEGIN
+	DECLARE bef INT ;
+	DECLARE after INT ;
+	SELECT count(*) INTO bef FROM Attends WHERE grade = temp;
+	UPDATE Attends SET grade = (temp + step) WHERE grade = temp;
+	SET temp = temp + step;
+	SELECT count(*) INTO after FROM Attends WHERE grade = temp;
+	SELECT bef , after , temp;
+	END &&
+	DELIMITER ;
+
+6.	create procedure getCount(in area varchar(255),out count int)
+    begin
+    select count(*) into count from research where research_area=area;
+    end $$
