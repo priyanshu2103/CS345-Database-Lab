@@ -1,0 +1,19 @@
+1.
+create view q1 as select s.stud_id,s.name,s.dept_id,a.course_id,a.grade from student s natural join attends a;
+select q2.course_id,q2.stud_id,q2.name from q1 q2 where q2.grade in (select max(q3.grade) from q1 q3 where q3.course_id=q2.course_id group by q3.course_id) order by course_id;
+
+2. 
+create view q2 as select s.stud_id,s.name,s.dept_id,a.course_id,a.grade from student s natural join attends a;
+select stud_id,name,sum(grade) from q2 group by stud_id having sum(grade)>=20 and sum(grade)<=30;
+
+3.
+create view q3 as select d.dependent_name,d.prof_id,p.prof_name,p.dept_id,dep.dept_name from dependents d natural join professor p natural join department dep;
+select dependent_name from q3 where dept_name="CSE" or dept_name="MATHS";
+
+4.
+create view q4 as select P.prof_id,P.prof_name,P.sex,R.research_area from Professor as P natural join research as R ;
+
+select * from q4 where research_area = "ML";
+select research_area, count(*) from q4 group by research_area ;
+update q4 set research_area="DS" where research_area="ML";
+select P.prof_id, P.prof_name,P.sex, R.research_area from Professor as P natural join research as R where R.research_area="ML";

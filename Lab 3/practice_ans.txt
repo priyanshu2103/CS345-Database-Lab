@@ -1,0 +1,14 @@
+1. select dept_id,count(prof_id) as count from Professor group by dept_id;
+2. select Course_id from Course where Intake in (select MAX(Intake) from Course);
+OR
+	select Course_id from Course group by Course_id,Intake order by Intake desc limit 1; (only if there is a single maximum, or else will give the wrong answer)
+3. select dept_id,count(prof_id) as count from Professor group by dept_id order by dept_id desc;
+4. select Day,count(Course_id) as count from Scheduled_on group by Day order by count desc;
+5. select avg(grade) as CPI from attends group by Stud_id;
+6. select D.department_name from Department D natural join Course C where C.Room="L1" or C.Room="L2" or C.Room="L3";
+7. select P.Prof_name from Professor P inner join Department D on P.dept_id=D.dept_id where D.department_name="CSE";
+8. select P.prof_id,P.Prof_name from Professor P inner join teaches t on P.prof_id=t.prof_id where t.Course_id="CS345";
+9. select Dept_name from Department where Dept_id in (select Course.Dept_id from Schedule_on inner join Course on Course.Course_id=Schedule_on.Course_id where Schedule_on.St_time=150000 and End_time=160000);
+	OR 
+Select distinct D.dept_id,D.department_name from Scheduled_on S inner join Course C on C.Course_id=S.Course_id inner join Department D on D.dept_id=C.dept_id where S.St_Time="15:00:00" and S.End_Time="16:00:
+	

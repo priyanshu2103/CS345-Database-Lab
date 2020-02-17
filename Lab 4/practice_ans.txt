@@ -1,0 +1,15 @@
+Q.1 
+create view course_view as select course_id,intake,since from course;
+
+1. select course_id from course_view where since in (select min(since) from course_view);
+2. select v1.course_id from course_view v1,course_view v2 where v1.since>2000 and v1.course_id=v2.course_id and v1.intake in (select max(v2.intake) from course_view v2 where v2.since>2000);
+
+Q.2 
+create view v1 as select stud_id,name,course_id,grade from student s left outer join attends a on s.stud_id=a.stud_id;
+create view v2 as select v1.stud_id,v1.name,v1.course_id,v1.grade,c.intake,c.course_name,c.course_type,c.dept_id from v1 left outer join course c on v1.course_id=c.course_id;
+
+
+1. select distinct stud_id from v2 where intake=35;
+2. select distinct stud_id,course_id from v2 where grade>=8;
+3. select v3.stud_id from v2 v3 where v3.stud_id not in (select v4.stud_id from v2 v4 where v4.course_name="lab");
+4. select course_id,count(*) from v2 group by course_id,grade having grade>=9;

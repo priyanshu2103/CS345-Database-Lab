@@ -1,0 +1,19 @@
+1. select Course_id from Course where Room="2001";
+2. select department_name from Department D,Course C where (room = "L1" or room="L2" or room="L3") and D.dept_id=C.dept_id;
+3. select Prof_name from Professor where dept_id = (select dept_id from Department where department_name="CSE");
+OR
+	select Prof_name from Professor P,Department D where D.department_name="CSE" and P.dept_id=D.dept_id;
+
+4. 	select t.prof_id,Prof_name from teaches t,Professor P where t.Course_id="CS345" and t.prof_id=P.prof_id;
+	So, both in Q.2 and Q.3 we are basically doing cross product (and in almost all questions)
+5.	select distinct D.department_name,D.dept_id from Scheduled_on S,Course C,Department D where (S.St_Time="15:00:00" and S.End_Time="16:00:00") and S.Course_id=C.Course_id and C.dept_id=D.dept_id; 
+6.  THIS IS WRONG
+  select distinct P.prof_id,P.Prof_name from Scheduled_on S,teaches t,Professor P where (NOT S.Day="Wednesday") or (NOT S.St_Time="09:00:00" and S.End_Time="10:00:00") and S.course_id=t.prof_id and t.prof_id=P.prof_id;
+ 
+THIS IS CORRECT
+	select distinct P.prof_id,P.Prof_name from Professor P where not exists (select P1.prof_id from Professor P1,teaches t,Scheduled_on S where S.day="Monday" and S.St_Time="09:00:00" and S.End_Time="10:00:00" and S.Course_id=t.Course_id and P1.prof_id=t.prof_id and P.prof_id=P1.prof_id);
+
+7. select P.prof_id,P.prof_name from Professor P,Department D where P.sex="F" and D.department_name="Civil" and P.dept_id=D.dept_id;
+8. select Course_id from Course where since > 2016;
+9. select age,Dependant_name from Dependants D,Professor P where P.Prof_name = "Sanasam" and P.prof_id=D.prof_id;
+10. select distinct Prof_name from Professor P,Prof_Research R where (R.Research_Area = "Data Mining" or R.Research_Area = "Machine Learning") and R.prof_id=P.prof_id;
